@@ -35,21 +35,7 @@ initMap = () => {
   });
 }  
  
-/* window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
-} */
+
 
 /**
  * Get current restaurant from page URL.
@@ -82,16 +68,31 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+  name.classList.add(restaurant.cuisine_type.toLowerCase() + '-color');
+
+  const rating = document.querySelector('.rating');
+  rating.innerHTML = 'Rating: ' + restaurantRating(restaurant); //'rating';
+  rating.classList.add(restaurant.cuisine_type.toLowerCase());
+
+  const image = document.getElementById('restaurant-img');
+  image.className = 'restaurant-img';
+  image.style.backgroundImage = `url('${DBHelper.imageUrlForRestaurant(restaurant)}')`;
+  image.setAttribute('aria-label', 'Image ' + restaurant.name + ' restaurant, ');
+  // image.tabIndex = '2';
+
+  const location = document.getElementById('restaurant-location');
+  location.innerHTML = restaurant.neighborhood;
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.setAttribute('aria-label', 'Address: ' + restaurant.address + ', ' + restaurant.neighborhood);
 
-  const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.classList.add(restaurant.cuisine_type.toLowerCase());
+  cuisine.setAttribute('aria-label', 'Cuisine type: ' + restaurant.cuisine_type);
 
   // fill operating hours
   if (restaurant.operating_hours) {
