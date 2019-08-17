@@ -19,8 +19,21 @@
 
 <body>
   <header>
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+    <nav class="wrapper">
+      <div class="logo" role="banner">
+        <a href="./">
+          <h1>Restaurant Reviews</h1>
+        </a>
+      </div>
+      <div class="filter-options" tabindex="0">
+        <h2>Filter Results</h2>
+        <select aria-label="filter by neighborhood" id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" tabindex="0">
+          <option value="all">All Neighborhoods</option>
+        </select>
+        <select aria-label="filter by cuisine type" id="cuisines-select" name="cuisines" onchange="updateRestaurants()" tabindex="0">
+          <option value="all">All Cuisines</option>
+        </select>
+      </div>
     </nav>
   </header>
 
